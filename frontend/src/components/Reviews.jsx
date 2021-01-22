@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Modal, Button } from "react-bootstrap";
 import AddReviews from "./AddReviews";
 import { getLocalStorage } from "../helpers/localStorage";
-import { getAllReviews, postReview } from "../api/productsApi";
+import { postReview } from "../api/productsApi";
+import { isAuthenticated } from "../helpers/auth";
 import ShowReviews from "./ShowReviews";
+import { withRouter } from "react-router-dom";
 const Reviews = (props) => {
 	//productId
 
@@ -22,16 +24,24 @@ const Reviews = (props) => {
 	}, [props.productId]);
 
 	const addReview = async (e) => {
-		e.preventDefault();
-		const userId = getLocalStorage("user").id;
-		if (props.productId) {
-			const postedRev = await postReview(props.productId, userId, review);
-			if (postedRev.data) {
-				setSubmittedSize(submittedSize + 1);
-				setReview({
-					comment: "",
-					rate: 1,
-				});
+		if (!isAuthenticated()) {
+			props.history.push("/auth/login");
+		} else {
+			e.preventDefault();
+			const userId = getLocalStorage("user").id;
+			if (props.productId) {
+				const postedRev = await postReview(
+					props.productId,
+					userId,
+					review
+				);
+				if (postedRev.data) {
+					setSubmittedSize(submittedSize + 1);
+					setReview({
+						comment: "",
+						rate: 1,
+					});
+				}
 			}
 		}
 	};
@@ -72,4 +82,4 @@ const Reviews = (props) => {
 	);
 };
 
-export default Reviews;
+export default withRouter(Reviews);

@@ -4,8 +4,9 @@ import { getProducts } from "../api/productsApi";
 
 import Reviews from "./Reviews";
 import { addToCart } from "../api/cart";
-import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
+import { isAuthenticated } from "../helpers/auth";
 import { getLocalStorage } from "../helpers/localStorage";
+import { withRouter } from "react-router-dom";
 const ProductList = (props) => {
 	const [products, setProducts] = useState([]);
 	const [loading, setLoading] = useState(false);
@@ -29,11 +30,15 @@ const ProductList = (props) => {
 	};
 
 	const addProductToCart = async (e) => {
-		const userId = getLocalStorage("user").id;
-		console.log("e.target.id", e.target.id);
-		const productId = e.target.id;
-		const data = await addToCart(userId, productId);
-		console.log("added to cart: ", data.data);
+		if (!isAuthenticated()) {
+			props.history.push("/auth/login");
+		} else {
+			const userId = getLocalStorage("user")?.id;
+			console.log("e.target.id", e.target.id);
+			const productId = e.target.id;
+			const data = await addToCart(userId, productId);
+			console.log("added to cart: ", data.data);
+		}
 	};
 	return (
 		<div className='product-list mt-4'>
@@ -91,4 +96,4 @@ const ProductList = (props) => {
 	);
 };
 
-export default ProductList;
+export default withRouter(ProductList);

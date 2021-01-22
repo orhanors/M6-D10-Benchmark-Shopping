@@ -1,8 +1,8 @@
 const Joi = require("joi");
 
 exports.userSchema = Joi.object().keys({
-	firstName: Joi.string().min(1).required(),
-	lastName: Joi.string().required(),
+	name: Joi.string().min(1).required(),
+	surname: Joi.string().required(),
 	email: Joi.string().email().required(),
 });
 

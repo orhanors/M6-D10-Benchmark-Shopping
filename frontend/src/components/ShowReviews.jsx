@@ -6,6 +6,8 @@ import {
 } from "../api/productsApi";
 
 import { ListGroup, Button } from "react-bootstrap";
+import { getLocalStorage } from "../helpers/localStorage";
+
 const ShowReviews = (props) => {
 	const [reviews, setReviews] = useState([]);
 	const [product, setProduct] = useState([]);
@@ -39,7 +41,7 @@ const ShowReviews = (props) => {
 				{reviews &&
 					reviews.map((rev) => {
 						return (
-							<div>
+							<div className='mb-3'>
 								<ListGroup.Item>
 									<strong>user: </strong> {rev.user.username}
 								</ListGroup.Item>
@@ -50,14 +52,17 @@ const ShowReviews = (props) => {
 									<strong>rate: </strong> {rev.rate}
 								</ListGroup.Item>
 
-								<ListGroup.Item>
-									<Button
-										id={rev.id}
-										onClick={(e) => handleDelete(e)}
-										variant='danger'>
-										Delete
-									</Button>
-								</ListGroup.Item>
+								{getLocalStorage("user")?.id ===
+									rev.user.id && (
+									<ListGroup.Item>
+										<Button
+											id={rev.id}
+											onClick={(e) => handleDelete(e)}
+											variant='danger'>
+											Delete
+										</Button>
+									</ListGroup.Item>
+								)}
 							</div>
 						);
 					})}
