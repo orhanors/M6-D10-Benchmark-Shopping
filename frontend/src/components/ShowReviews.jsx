@@ -41,6 +41,9 @@ const ShowReviews = (props) => {
 						return (
 							<div>
 								<ListGroup.Item>
+									<strong>user: </strong> {rev.user.username}
+								</ListGroup.Item>
+								<ListGroup.Item>
 									<strong>comment: </strong> {rev.comment}
 								</ListGroup.Item>
 								<ListGroup.Item>

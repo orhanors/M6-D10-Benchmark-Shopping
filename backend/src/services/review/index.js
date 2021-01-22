@@ -33,6 +33,7 @@ router.get("/:productId", async (req, res, next) => {
 
 		const productReviews = await Review.findAll({
 			where: { productId },
+			include: [Product, User],
 		});
 		res.status(200).json({ data: productReviews });
 	} catch (error) {
