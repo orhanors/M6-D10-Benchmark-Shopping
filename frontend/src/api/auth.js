@@ -12,12 +12,12 @@ export const signup = async (data) => {
 
 	try {
 		const response = await axios.post(
-			`${REACT_APP_BE_URL}/auth/signup`,
+			`${REACT_APP_BE_URL}/api/users/auth/signup`,
 			data,
 			config
 		);
 		console.log("response data --->", response.data);
-		if (response.success) {
+		if (response.data) {
 			return response.data;
 		} else {
 			return response.data;
@@ -35,10 +35,10 @@ export const signin = async (data) => {
 	};
 
 	const response = await axios.post(
-		`${REACT_APP_BE_URL}/auth/signin`,
+		`${REACT_APP_BE_URL}/api/users/auth/login`,
 		data,
 		config
 	);
 
-	return response;
+	return response.data;
 };

@@ -12,15 +12,15 @@ const ShowReviews = (props) => {
 	const [deletedSize, setDeletedSize] = useState(0);
 
 	const getReviews = async () => {
-		const result = await getSingleProduct(props.productId);
+		const result = await getAllReviews(props.productId);
 		console.log("reviews: ", result);
 		setProduct(result.data); //whole product
-		setReviews(result.data.reviews.reverse());
+		setReviews(result.data.reverse());
 	};
 	const handleDelete = async (e) => {
 		let id = e.currentTarget.id;
 		console.log(e.currentTarget);
-		const result = await deleteReview(id, product._id);
+		const result = await deleteReview(id);
 		alert(result);
 		setDeletedSize(deletedSize + 1);
 	};
@@ -32,7 +32,9 @@ const ShowReviews = (props) => {
 	}, [props.submittedSize, deletedSize]);
 	return (
 		<div>
-			<h1 className='text-center mt-3'>Reviews</h1>
+			{reviews && reviews.length > 0 && (
+				<h1 className='text-center mt-3'>Reviews</h1>
+			)}
 			<ListGroup>
 				{reviews &&
 					reviews.map((rev) => {
@@ -47,7 +49,7 @@ const ShowReviews = (props) => {
 
 								<ListGroup.Item>
 									<Button
-										id={rev._id}
+										id={rev.id}
 										onClick={(e) => handleDelete(e)}
 										variant='danger'>
 										Delete

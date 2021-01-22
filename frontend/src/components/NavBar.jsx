@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { Nav, Navbar, Dropdown, Button, Container } from "react-bootstrap";
-
+import { getLocalStorage } from "../helpers/localStorage";
 import { logout, isAuthenticated } from "../helpers/auth";
 const NavBar = (props) => {
 	const handleLogout = () => {
@@ -11,36 +11,41 @@ const NavBar = (props) => {
 	};
 	const showDropDownMenu = () => {
 		return (
-			<Dropdown.Menu>
-				{isAuthenticated() ? (
-					<>
-						<Dropdown.Item as={Link} to='/'>
-							Home
-						</Dropdown.Item>
-						<Dropdown.Item as={Link} to='/products'>
-							BackOffice
-						</Dropdown.Item>
-						<Dropdown.Item onClick={handleLogout}>
-							Logout
-						</Dropdown.Item>
-					</>
-				) : (
-					<>
-						<Dropdown.Item as={Link} to='/auth/login'>
-							Login
-						</Dropdown.Item>
-						<Dropdown.Item as={Link} to='/auth/signup'>
-							Signup
-						</Dropdown.Item>
-					</>
-				)}
-			</Dropdown.Menu>
+			<div>
+				<Dropdown.Menu>
+					{isAuthenticated() ? (
+						<>
+							<Dropdown.Item as={Link} to='/'>
+								Home
+							</Dropdown.Item>
+							<Dropdown.Item as={Link} to='/products'>
+								BackOffice
+							</Dropdown.Item>
+							<Dropdown.Item as={Link} to='/cart'>
+								Cart
+							</Dropdown.Item>
+							<Dropdown.Item onClick={handleLogout}>
+								Logout
+							</Dropdown.Item>
+						</>
+					) : (
+						<>
+							<Dropdown.Item as={Link} to='/auth/login'>
+								Login
+							</Dropdown.Item>
+							<Dropdown.Item as={Link} to='/auth/signup'>
+								Signup
+							</Dropdown.Item>
+						</>
+					)}
+				</Dropdown.Menu>
+			</div>
 		);
 	};
 
 	const showDropDown = () => {
 		return (
-			<div>
+			<div className='dropdown-menu-nav'>
 				<Dropdown>
 					<Dropdown.Toggle variant='success' as='div'>
 						{/* add image */}
@@ -68,7 +73,17 @@ const NavBar = (props) => {
 				<Navbar.Toggle aria-controls='basic-navbar-nav' />
 				<Navbar.Collapse id='basic-navbar-nav'>
 					<Nav className='ml-auto'>
-						<div>{showDropDown()}</div>
+						<div className='d-flex'>
+							{isAuthenticated() && (
+								<p className='mr-1'>
+									Welcome{" "}
+									<strong>
+										{getLocalStorage("user")?.name}
+									</strong>{" "}
+								</p>
+							)}
+							<div>{showDropDown()}</div>
+						</div>
 					</Nav>
 				</Navbar.Collapse>
 			</Container>

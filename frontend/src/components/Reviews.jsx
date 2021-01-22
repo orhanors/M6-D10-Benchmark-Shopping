@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Modal, Button } from "react-bootstrap";
 import AddReviews from "./AddReviews";
-
+import { getLocalStorage } from "../helpers/localStorage";
 import { getAllReviews, postReview } from "../api/productsApi";
 import ShowReviews from "./ShowReviews";
 const Reviews = (props) => {
@@ -10,7 +10,6 @@ const Reviews = (props) => {
 	const [review, setReview] = useState({
 		comment: "",
 		rate: 1,
-		elementId: "",
 	});
 	const [submittedSize, setSubmittedSize] = useState(0);
 	const [reviews, setReviews] = useState([]);
@@ -24,9 +23,16 @@ const Reviews = (props) => {
 
 	const addReview = async (e) => {
 		e.preventDefault();
+		const userId = getLocalStorage("user").id;
 		if (props.productId) {
-			const postedRev = await postReview(props.productId, review);
-			setSubmittedSize(submittedSize + 1);
+			const postedRev = await postReview(props.productId, userId, review);
+			if (postedRev.data) {
+				setSubmittedSize(submittedSize + 1);
+				setReview({
+					comment: "",
+					rate: 1,
+				});
+			}
 		}
 	};
 
@@ -49,9 +55,7 @@ const Reviews = (props) => {
 			aria-labelledby='contained-modal-title-vcenter'
 			centered>
 			<Modal.Header closeButton>
-				<Modal.Title id='contained-modal-title-vcenter'>
-					Add New Review
-				</Modal.Title>
+				<h3 className='text-center'>Add New Review</h3>
 			</Modal.Header>
 			<Modal.Body>
 				<AddReviews

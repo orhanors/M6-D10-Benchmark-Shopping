@@ -60,6 +60,7 @@ function Signin(props) {
 			//If there is an error incoming response
 			signin(body)
 				.then((response) => {
+					console.log("resfdsaf", response);
 					setAuth(response.data.token, response.data.user);
 
 					if (isAuthenticated() && isAuthenticated().role === 1) {

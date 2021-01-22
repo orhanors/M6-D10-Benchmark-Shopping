@@ -89,7 +89,7 @@ function Signup(props) {
 					password: "",
 					password2: "",
 					errorMsg: "",
-					successMsg: response.data,
+					successMsg: "Successfully created",
 				});
 			}
 		}

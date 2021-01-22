@@ -63,14 +63,15 @@ const AddProductForm = (props) => {
 					<Form.Group>
 						<Form.Label>Category</Form.Label>
 						<Form.Control
-							id='category'
+							id='categoryId'
 							as='select'
-							value={props.product.category}
+							value={props.product.categoryId}
 							onChange={props.fillForm}>
 							<option>Tech</option>
 							<option>Home </option>
 							<option>Food</option>
-							<option>Drink</option>
+							<option>Clothes</option>
+							<option>Shoes</option>
 							<option>Other</option>
 						</Form.Control>
 					</Form.Group>

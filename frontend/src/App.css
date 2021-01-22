@@ -17,7 +17,42 @@
 .modal-content {
 	overflow-x: auto !important;
 }
-
+.add-to-cart-icon {
+	background-color: rgb(194, 194, 194);
+	padding: 0.6rem !important;
+	border-radius: 50%;
+	font-weight: bold;
+	font-size: larger;
+	z-index: 1000;
+	margin-top: 0.3rem;
+}
 .add-to-cart-icon:hover {
 	cursor: pointer;
+	transform: scale(1.12);
+	opacity: 0.7;
+}
+.btn-update {
+	padding: 0.5rem;
+	border-radius: 10px;
+	background-color: rgb(252, 203, 45);
+}
+
+.btn-remove {
+	padding: 0.5rem;
+	border-radius: 10px;
+	color: white;
+	background-color: rgb(156, 7, 7);
+}
+.dropdown-menu-nav:hover {
+	cursor: pointer;
+}
+.welcome {
+	font-size: larger;
+}
+
+.homeros-first-btn {
+	padding: 0.5rem;
+	border-radius: 10px;
+	font-weight: bold;
+	background-color: rgb(247, 160, 0);
 }

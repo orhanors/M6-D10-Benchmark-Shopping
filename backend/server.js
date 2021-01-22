@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const services = require("./src/services");
+const db = require("./src/db");
 const {
 	unAuthorizedHandler,
 	forbiddenHandler,
@@ -15,6 +16,7 @@ require("dotenv").config();
 server.use(cors());
 server.use(express.json());
 const port = process.env.PORT || 5000;
+
 //MAIN ROUTE
 server.use("/api", services);
 
@@ -25,6 +27,8 @@ server.use(forbiddenHandler);
 server.use(unAuthorizedHandler);
 server.use(genericHandler);
 
-server.listen(port, () => {
-	console.log("Server is running on PORT:", port);
+db.sequelize.sync({ force: false }).then((result) => {
+	server.listen(port, () => {
+		console.log("Server is running on PORT:", port);
+	});
 });

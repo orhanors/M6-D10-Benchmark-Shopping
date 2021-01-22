@@ -30,9 +30,9 @@ const AddReviews = (props) => {
 					</Form.Control>
 				</Form.Group>
 
-				<Button variant='primary' type='submit'>
+				<button className='homeros-first-btn ' type='submit'>
 					Submit
-				</Button>
+				</button>
 			</Form>
 		</Container>
 	);

@@ -16,7 +16,7 @@ const BackOffice = (props) => {
 		price: 1,
 		quantity: 10,
 		imageUrl: "",
-		category: "Tech",
+		categoryId: "Tech",
 	});
 	const [image, setImage] = useState(null);
 
@@ -39,7 +39,18 @@ const BackOffice = (props) => {
 		setProducts(products.data);
 		setLoading(false);
 	};
+	const convertCategoryToId = (obj) => {
+		const categoryArray = [
+			"Tech",
+			"Home",
+			"Food",
+			"Clothes",
+			"Shoes",
+			"Other",
+		];
 
+		obj.categoryId = categoryArray.indexOf(obj.categoryId) + 1;
+	};
 	const addProduct = async (e) => {
 		e.preventDefault();
 		if (update !== null) {
@@ -49,9 +60,10 @@ const BackOffice = (props) => {
 			setSubmittedSize(submittedSize + 1);
 			console.log(updateResult);
 		} else {
+			convertCategoryToId(product);
 			let result = await postProduct(product);
 			console.log(result);
-			if (!result.success) {
+			if (!result.data) {
 				setErrorMsg(result.errors);
 				//const postImg = await postProductImage(result.data._id, image);
 			} else {
@@ -61,7 +73,7 @@ const BackOffice = (props) => {
 					description: "",
 					brand: "",
 					price: 1,
-					category: "Tech",
+					categoryId: "Tech",
 				});
 			}
 
@@ -72,6 +84,7 @@ const BackOffice = (props) => {
 	const fillForm = (e) => {
 		let currentId = e.currentTarget.id;
 		let newProduct = { ...product };
+
 		newProduct[currentId] = e.currentTarget.value;
 		setProduct(newProduct);
 		setErrorMsg(null);
@@ -94,7 +107,7 @@ const BackOffice = (props) => {
 		return (
 			<div className='product-table mt-3'>
 				<Container>
-					<Table striped bordered hover variant='dark'>
+					<Table striped bordered hover variant='light'>
 						<thead>
 							<tr>
 								<th>No</th>
@@ -138,24 +151,28 @@ const BackOffice = (props) => {
 													<td>{product.price}</td>
 													<td>{product.category}</td>
 													<td>
-														<Button
-															className='mr-2'
-															onClick={(e) =>
-																updateProduct(
-																	e,
-																	product
-																)
-															}>
-															Update
-														</Button>
-														<Button
-															id={product._id}
-															onClick={(e) =>
-																deleteProduct(e)
-															}
-															variant='danger'>
-															Remove
-														</Button>
+														<div className='d-flex'>
+															<button
+																className='btn-update mr-2'
+																onClick={(e) =>
+																	updateProduct(
+																		e,
+																		product
+																	)
+																}>
+																Update
+															</button>
+															<button
+																id={product._id}
+																onClick={(e) =>
+																	deleteProduct(
+																		e
+																	)
+																}
+																className='btn-remove'>
+																Remove
+															</button>
+														</div>
 													</td>
 												</tr>
 											);

@@ -3,7 +3,7 @@
 const { REACT_APP_BE_URL } = process.env;
 export async function getProducts() {
 	try {
-		const response = await fetch(`${REACT_APP_BE_URL}/products`, {
+		const response = await fetch(`${REACT_APP_BE_URL}/api/products`, {
 			method: "GET",
 		});
 		if (response.ok) {
@@ -21,7 +21,7 @@ export async function getProducts() {
 //POST A PRODUCT
 export async function postProduct(product) {
 	try {
-		const response = await fetch(`${REACT_APP_BE_URL}/products/`, {
+		const response = await fetch(`${REACT_APP_BE_URL}/api/products/`, {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify(product),
@@ -96,7 +96,7 @@ export async function removeProduct(id) {
 export async function getAllReviews(productId) {
 	try {
 		const response = await fetch(
-			`${REACT_APP_BE_URL}/products/${productId}/reviews`,
+			`${REACT_APP_BE_URL}/api/reviews/${productId}`,
 			{ method: "GET" }
 		);
 		if (response.ok) {
@@ -112,10 +112,10 @@ export async function getAllReviews(productId) {
 }
 
 // "/:id/reviews" POST A REVIEW FOR A PRODUCT
-export async function postReview(productId, review) {
+export async function postReview(productId, userId, review) {
 	try {
 		const response = await fetch(
-			`${REACT_APP_BE_URL}/reviews/${productId}/`,
+			`${REACT_APP_BE_URL}/api/reviews/${productId}/add-review/${userId}`,
 			{
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
@@ -160,10 +160,10 @@ export async function updateReview(reviewId, review) {
 }
 
 //DELETE A REVIEW
-export async function deleteReview(reviewId, productId) {
+export async function deleteReview(reviewId) {
 	try {
 		const response = await fetch(
-			`${REACT_APP_BE_URL}/reviews/${reviewId}/products/${productId}`,
+			`${REACT_APP_BE_URL}/api/reviews/${reviewId}`,
 			{ method: "DELETE" }
 		);
 		if (response.ok) {
@@ -183,7 +183,7 @@ export async function postProductImage(productId, file) {
 		let formData = new FormData();
 		formData.append("product", file, file.name);
 		const response = await fetch(
-			`${REACT_APP_BE_URL}/products/${productId}/image`,
+			`${REACT_APP_BE_URL}/api/products/${productId}/image`,
 			{ method: "POST", body: formData }
 		);
 		if (response.ok) {
