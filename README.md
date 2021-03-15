@@ -3,7 +3,7 @@
 
 
 
-:pushpin: This is a shopping project created by using PERN stack technologies. 
+:pushpin:  This is a shopping project created by using PERN stack technologies. 
 
 ### What you'll discover in this project?
 
